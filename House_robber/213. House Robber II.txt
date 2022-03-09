@@ -1,1 +1,13 @@
+You are a professional robber planning to rob houses along a street. 
+Each house has a certain amount of money stashed. All houses at this place are arranged in a circle.
 
+
+SOlution:
+ This time first & last elements are neighbours means house are in circle.
+ 
+ So here is our approch :
+  we can start find maxmum amount that we can rob from i=0 to n-2 
+  and rob from n-1 to i=1;
+  and find maximum of these two operation:
+  
+  
