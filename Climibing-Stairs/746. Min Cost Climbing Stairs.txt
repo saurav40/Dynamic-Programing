@@ -38,4 +38,50 @@ Constraints:
 
 --------------------------------*---------------------------------
 Solution:
-
+   let undertand this problem with an example
+   
+   10 15 20 13 4 8 19 __
+   
+   here in the problem one thing is missing that you have to find the min cost to reach n+1 pos not at pos n;
+   In above after the elmenet __ is the position for which we have to find min cost rquired.
+   
+   for this we can take an aditional array or we can use two varriables.
+   
+   we have to find min cost for every ith pos
+   
+   lets look using extra space:
+   
+   int dp[]=new int[n];
+   if(n==1)
+       return cost[0];
+   
+   dp[0]=cost[0];
+   dp[1]=cost[1];
+   for(int i=2;i<n;i++)
+   {
+      dp[i]=cost[i]+Math.min(dp[i-1],dp[i-2]);
+   }
+   return Math.min(dp[n-1],dp[n-2]);
+   
+          10 15 20 13 4 8 19 _
+   
+      dp  10 15 30 28 32 36 51
+      
+  using two variable
+  Prev1,Prev2
+  
+  if(n==1)
+    return cost[0];
+  int prev2=cost[0];
+  int prev1=cost[1];
+  
+  for(int i=2;i<n;i++)
+  {
+    int curr=cost[i]+Math.min(prev1,prev2);
+    prev2=prev1;
+    prev1=curr;
+  }
+  return Math.min(prev1,prev2);
+   
+   
+   
