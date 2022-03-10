@@ -222,12 +222,18 @@ so if we do sum=sum/2 then we only have to find the Subset sum in array for sum/
 
 So our new input will be like SS(int n,arr,sum/2)
 
-Boolean Equal_Sum(arr,n)
-{
-     int sum=0;
-     for(int i=0;i<n;i++)
-     {
-       sum+=arr[i];
-     }
-     return subset_sum(arr,n,sum/2);
-}
+ static int equalPartition(int N, int arr[])
+    {
+        // code here
+        int sum=0;
+        for(int i=0;i<N;i++)
+        {
+            sum+=arr[i];
+        }
+        if(sum%2==0){
+
+        if(isSubsetSum(N,arr,sum/2))
+            return 1;}
+        
+       return 0;
+    }
