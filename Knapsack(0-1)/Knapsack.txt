@@ -114,3 +114,73 @@ dp[n+1][W+1];
      5. Target sum
      6. Count number of subset with given difference
      
+----------------------------------------------------------
+1. Subset Sum problem
+     A set of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum.
+     Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
+     Output: True  
+     There is a subset (4, 5) with sum 9.
+     
+     Input: arr[]={2,3,7,8,10},Sum=11
+     Output:True 
+     (3,8) -->11 
+     
+     Constraints:
+       1 <= N <= 100
+       1<= arr[i] <= 100
+       1<= sum <= 105
+       
+       //Recursive soltuion
+       
+       static Boolean isSubsetSum(int N, int arr[], int sum){
+        // code here
+           if(sum==0)
+              return true;
+            if(sum>0 && N==0)
+               return false;
+            if(arr[N-1]<=sum)
+                return isSubsetSum(N-1,arr,sum-arr[N-1]) || isSubsetSum(N-1,arr,sum);
+            return isSubsetSum(N-1,arr,sum);
+        }   
+        
+     //bottom-up
+     take a boolean array dp[N+1][sum+1];
+     
+     if sum=0 -->N=0,1,2,4,5-->True
+     if N=0,Sum=0-->True
+     if N=0,Sum>0-->False
+     
+     Suppose N=3 & Sum=7 then Inialization
+              0  1 2 3 4 5 6 7
+          0   T  F F F F F F F
+          1   T 
+          2   T
+          3   T
+       static Boolean isSubsetSum(int N, int arr[], int sum){
+       
+           Boolean dp[][]=new Boolean[N+1][sum+1];
+           for(int i=0;i<=sum;i++)
+           {
+               dp[0][i]=false;
+           }
+           for(int i=0;i<=N;i++)
+           {
+               dp[i][0]=true;
+           }
+           
+           for(int i=1;i<=N;i++)
+           {
+               for(int j=1;j<=sum;j++)
+               {
+                   if(arr[i-1]<=j)
+                   {
+                       dp[i][j]=dp[i-1][j-arr[i-1]] || dp[i-1][j];
+                   }
+                   else
+                     dp[i][j]=dp[i-1][j];
+                   
+               }
+           }
+           return dp[N][sum];
+    }
+    
