@@ -237,3 +237,8 @@ So our new input will be like SS(int n,arr,sum/2)
         
        return 0;
     }
+    
+   -----------------------------------------------------------------------------------
+   -----------------------------------------------------------------------------------
+   3.Count of subsets with sum equal to X
+   Given an array arr[] of length N and an integer X, the task is to find the number of subsets with a sum equal to X.
