@@ -108,7 +108,7 @@ dp[n+1][W+1];
        }
   Problems based on Knapsack
      1. Subset sum problem
-     2. Equil sum partition
+     2. Equal sum partition
      3. Count subset sum
      4. Minimum subset sum differene
      5. Target sum
@@ -142,7 +142,27 @@ dp[n+1][W+1];
                 return isSubsetSum(N-1,arr,sum-arr[N-1]) || isSubsetSum(N-1,arr,sum);
             return isSubsetSum(N-1,arr,sum);
         }   
-        
+     //Memoization
+       public int ss(int n,int [] arr,int sum)
+   {
+       if(sum==0)
+         return 1;
+       if(n<=0)
+          return 0;
+        if(dp[n][sum]!=-1)
+           return dp[n][sum];
+        if(arr[n-1]<=sum)
+        {
+            if(ss(n-1,arr,sum-arr[n-1])!=0 || ss(n-1,arr,sum)!=0)
+               dp[n][sum]=1;
+            else
+              dp[n][sum]=0;
+        }
+        else
+          dp[n][sum]=ss(n-1,arr,sum);
+    return dp[n][sum];
+   }
+      
      //bottom-up
      take a boolean array dp[N+1][sum+1];
      
@@ -184,3 +204,30 @@ dp[n+1][W+1];
            return dp[N][sum];
     }
     
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+2. Equal Sum Partition
+
+Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is the same. 
+
+INPUT:{1,5,11,5}
+OUTPUT:True/False
+
+Here {1,5,5} & {11}
+    sum=11   & sum=11 --->True
+Basicly it's variation of Subset sum problem.
+Let's understand
+Here total sum of all element in a array is 1+5+11+5=22;
+so if we do sum=sum/2 then we only have to find the Subset sum in array for sum/2.
+
+So our new input will be like SS(int n,arr,sum/2)
+
+Boolean Equal_Sum(arr,n)
+{
+     int sum=0;
+     for(int i=0;i<n;i++)
+     {
+       sum+=arr[i];
+     }
+     return subset_sum(arr,n,sum/2);
+}
