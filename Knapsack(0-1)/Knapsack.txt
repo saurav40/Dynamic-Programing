@@ -111,8 +111,9 @@ dp[n+1][W+1];
      2. Equal sum partition
      3. Count subset sum
      4. Minimum subset sum differene
-     5. Target sum
-     6. Count number of subset with given difference
+     5. Count number of subset with given difference
+     6. Target sum
+     
      
 ----------------------------------------------------------
 1. Subset Sum problem
@@ -264,5 +265,89 @@ So our new input will be like SS(int n,arr,sum/2)
           }
           else
             dp[i][j]=dp[i-1][j];
-            
+  -------------------------------------------------------------------
+  -------------------------------------------------------------------
+  4.Minimum Subset sum difference
+  
+  Given a set of integers, the task is to divide it into two sets S1 and S2 such that the absolute difference between their sums is minimum. 
+  
+  Input : arr=[1,6,11,5]
+  o/p-1
+  
+  arr={1,5,8,9,0,10}
+  
+  lets P1 and P2 is two partition of array and S1 & S2 is sum of P1 and P2 respectivly.
+  
+  abs(S2-S1) should be minimum
+  |S2 -S1|=min or |S1-S2|=min
+  
+  let's take empty subset ={} as P1 then S1=0  
+  and whole array as P2 the S2=Sum(arr)
+  
+  then abs(S2-S1) will be maximum.
+  So for minimum abs difference S1 & S2 can be lie b/w 0 to Sum(arr)--Range(0,23)
+  for example: 1 6 11 5
+  sum=23
+  so S1 & S2 will be lie between 0 & 23;
+  
+  0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+  T T F F F T T T F F F  T  T   F F  F  T  T  T  F  F  F  T  T
+  
+  these the posible sum for the range 0-23 so let's check how many sum is possible for the given Array.
+  
+  So two Subset in above example will be
+  S1 & S2=Range-S1
+  
+  S2-S1=Min or S1-S2=Min
+  
+  Range-S1-S1=min
+  Range-2S1=Min
+  Here we Know range i.e 23 
+  We only have to find S1.
+  
+  Here S2-S1 should be Minimum so S1 will not go beyond Range/2.
+  Means 
+    we Only have to minimize Range-2S1 till Range/2;
+    
+	public int minDifference(int arr[], int n) 
+	{ 
+	    int range=0;
+	    for(int i=0;i<n;i++)
+	       range+=arr[i];
+	       
+	  boolean dp[][]=new boolean[n+1][range+1];
+	   for(int i=0;i<=n;i++)
+	     dp[i][0]=true;
+	   for(int i=1;i<=n;i++)
+	     for(int j=1;j<=range;j++)
+	     {
+	         if(arr[i-1]<=j)
+	         {
+	             dp[i][j]=dp[i-1][j-arr[i-1]] || dp[i-1][j];
+	         }
+	         else
+	            dp[i][j]=dp[i-1][j];
+	     }
+	     int min=range;
+	     for(int i=0;i<=range/2;i++)
+	     {
+	         if(dp[n][i])
+	         {
+	             min=Math.min(range-2*i,min);
+	         }
+	     }
+	     return min;
+	}
+-------------------------------------------------------------
+-------------------------------------------------------------
+5. Count number of subset with given difference
+
+     
+  
+  
+  
+  
+  
+  
+  
             
