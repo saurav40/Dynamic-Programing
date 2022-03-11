@@ -354,6 +354,36 @@ Therefore adding both eq we get :
 s1= (diff + sum of array)/2;
 Problem reduces to find no of subsets with given sum
 Problem 3 :
+-----------------------------------------------------------
+-----------------------------------------------------------
+6.Target Sum
+
+Given an array of integers A[] of length N and an integer target.
+You want to build an expression out of A by adding one of the symbols '+' and '-' 
+before each integer in A and then concatenate all the integers.
+
+N = 5
+A[] = {1, 1, 1, 1, 1}
+target = 3
+o/p-->5
+-1 + 1 + 1 + 1 + 1 = 3-->Here we can se target is difference of two subset
+ S1{1} S2{1,1,1,1}--> S2-S1=3
++1 - 1 + 1 + 1 + 1 = 3-->Here Also
+ S2   S1 {1,1,1}->S2-->S2-S1=3
++1 + 1 - 1 + 1 + 1 = 3
+{1,1} & {1,1}-->S2 And {1}->S1-->S2-S1=3
++1 + 1 + 1 - 1 + 1 = 3
++1 + 1 + 1 + 1 - 1 = 3
+
+Hence Target is nothing but differnce of two subset of array.
+S1-S2=Target Given
+S1+S2=Sum(arr)
+2S1=Target+Sum
+S1=(Target+Sum)/2;
+
+Here this problem is reduced to Count subset with sum=s1;
+
+
 
 
      
