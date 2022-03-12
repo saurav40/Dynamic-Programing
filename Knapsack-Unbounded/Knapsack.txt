@@ -1,1 +1,69 @@
+                                       Knapsack
+                                    |       |        | 
+                                  |         |            |
+                             Fractional   Knapsack(0/1)   Unbounded Knapsack  
+                             Knapsack
+         
+    Unbounded Knapsack-Repetition of elment is allowed
+    
+    The Only difference is we can include an element multiple time in unbounded.
+    And if we exclude an element we can't repeat that element:
+    
+    for example
+    let these are the element of knapsack
+    
+    a1 a2 a3 a4 a5
+                if we exclude a5 then we have made a decision that we are done we a5.
+                But if We include it we may or may not include this elment again.
+   //Recursive 
+   
+   if(n==0 || W==0)
+       return 0;
+   int choice1=-1;
+   if(wt[n-1]<=W)
+   {
+       choice1=Math.max(val[n-1]+Knapsack(n,W-Wt[n-1],val,wt),Knapsack(n-1,W,val,wt);
+   }
+   return Math.max(choice1,Knapsack(n-1,W,val,wt));
+   
+   //Memoization
+   
+   t[n+1][W+1]:
+           -1 -1 -1
+           -1 -1 -1 
+           -1 -1 -1
+      
+   if(n==0 || W==0)
+       return 0;
+   if(t[n][W]!=-1)
+      return t[n][W];
+  
+   if(wt[n-1]<=W)
+   {
+       t[n][W]=Math.max(val[n-1]+Knapsack(n,W-Wt[n-1],val,wt),Knapsack(n-1,W,val,wt);
+   }
+   return t[n][W]=Math.max(t[n][W],Knapsack(n-1,W,val,wt));
+  
+  //Bottom-Up
+  static int knapSack(int N, int W, int val[], int wt[])
+    {
+        int t[][]=new int[N+1][W+1];
+        
+        for(int i=1;i<=N;i++)
+          for(int j=1;j<=W;j++)
+          {
+              if(wt[i-1]<=j)
+              {
+                  t[i][j]=Math.max(val[i-1]+t[i][j-wt[i-1]],t[i-1][j]);
+              }
+              else
+              {
+                  t[i][j]=t[i-1][j];
+              }
+          }
+          return t[N][W];
+    }
+           
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
