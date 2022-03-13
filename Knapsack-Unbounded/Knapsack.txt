@@ -73,3 +73,29 @@ Related problems
 2.Coin Change
 3.Coin Change II
 4.Maximum Ribbon cut
+----------------------------
+1.Rod Cutting
+
+Given a rod of length n inches and an array of prices that includes prices of all pieces of size smaller than n. 
+Determine the maximum value obtainable by cutting up the rod and selling the pieces. 
+
+Input:length 1  2  3  4   5   6   7  8 
+      Price={1, 5, 8, 9, 10, 17, 17, 20} 
+      maX_Length=size(arr)=8
+      
+      if max_length=0 return 0;
+      if(n==0) return 0;
+      
+      int RodCutting(int[] price,int[] length,int MaxLength,int n)
+      {
+          if(n==0 || MaxLength)
+             return 0;
+          if(t[n][MaxLength]!=-1)
+             return t[n][MaxLength];
+          if(length[n-1]<=MaxLength)
+          {
+               t[n][MaxLength]=Math.max(price[n-1]+RodCutting(price,length,MaxLength-length[n-1],n),RodCutting(price,length,MaxLength,n-1);
+           }
+           return Math.max(t[n][MaxLength],RodCutting(price,length,MaxLength,n-1));
+      }
+      
