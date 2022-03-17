@@ -1,7 +1,102 @@
-You are given two integer arrays nums and multipliers of size n and m respectively, 
-where n >= m.
-The arrays are 1-indexed.
+You are given two integer arrays nums and multipliers of size n and m respectively, where n >= m. The arrays are 1-indexed.
 
-You begin with a score of 0. You want to perform exactly m operations. 
-On the ith operation (1-indexed),
-you will:
+You begin with a score of 0. You want to perform exactly m operations. On the ith operation (1-indexed), you will:
+
+Choose one integer x from either the start or the end of the array nums.
+Add multipliers[i] * x to your score.
+Remove x from the array nums.
+Return the maximum score after performing m operations.
+
+Input: nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]
+Output: 102
+
+our first intution is Greedy 
+
+[-5 -3 -3 -2 7 1]
+
+[-10,-5,3,4,6]
+
+ans=Max(-10*-5,-10*1)==>50 so -5 is deleted
+[-3,-3,-2,7,1]
+ans+=Max(-5*-3,-5*1)==>50+15  so -3 is deleted
+[-3,-2,7,1]
+ans+=Max(3*-3,3*1)==>65+3 so 1 is deleted
+[-3,-2,7]
+ans+=Max(4*-3,4*7)==>68+28 so 7 is deleted
+[-3,-2]
+ans+=Max(6*-3,6*-2)==>96-12 so -2 is deleted
+ans=84 [But it's not maximum]
+
+So We can't apply Greedy here
+
+because at this step:
+
+ans+=Max(3*-3,3*1)==>65+3 so 1 is deleted
+[-3,-2,7]
+ 
+if we have choose 3*-3 then ans+=65-9 and -3 will be deleted
+and then 
+[-2,7,1]
+ans+=>56+Max(4*-2,4*1)==>60 and 1 deleted
+[-2,7]
+ans=60+Max(6*-2,6*7)==>60+42=102
+
+ans=102;
+
+hence Greedy failed here
+
+So let's think about DP:
+
+For this example:
+
+[-5,-3,-3,-2,7,1]
+[-10,-5,3,4,6]
+
+we will go for all posiblity
+for each elment two choice is there
+Choice 1: -10 multiplied with -5(start of array) 
+  ==>50 and check all posiblity for 
+   [-3,-3,-2,7,1]
+   [-5,3,4,6]
+Choice 2: -10*1 =>-10
+   and check all posiblity for remaing elements except 1 & -10
+   i.e
+   [-5,-3,-3,-2,7,1]
+   [-5,3,4,6]
+
+Return the choise which gives maximum.
+
+//Recurive
+
+int solve(int [] nums,int []mul,int i,int start,int end)
+{
+    if(i==mul.size)
+      return 0;
+   int choice1=mul[i]*nums[start]+solve(nums,mul,i+1,start+1,end);
+   int choice2=mul[i]*nums[end]+solve(nums,mul,i+1,start,end-1);
+   returm Math.max(choice1,choice2);
+}
+
+TLE ==>Time complexity is exponetial.
+
+//Memoization
+int dp[][][]=new int[i][s][e]
+
+but here we can eliminate end-->e
+using start-->s & i
+int e=nums.length-(i-s)-1;
+
+dp array will be
+int dp[][]=new dp[m+1][m+1]
+                   i    start
+m-->size of mul
+int solve(int [] nums,int []mul,int i,int start)
+{
+    if(i==mul.size)
+      return 0;
+   int end=nums.length-(i-start)-1;
+   if(dp[i][start]==0)
+   dp[i][start]=Math.max(mul[i]*nums[start]+solve(nums,mul,i+1,start+1),
+                          mul[i]*nums[end]+solve(nums,mul,i+1,start))
+   returm dp[i][start];
+}
