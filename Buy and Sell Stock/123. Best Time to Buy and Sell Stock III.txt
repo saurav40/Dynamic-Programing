@@ -1,0 +1,113 @@
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete at most two transactions
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again)
+
+
+Possible solution with: 1) Divide & conquer
+                        2)States machine
+                        3)DP
+  
+  example:
+    [2,3,4,2,1,2,3,2,4]
+    
+    
+           4                    4
+        3                  3                      ---->Graph
+    2            2      2     2
+              1      1    
+    0   1  2  3  4   5  6  7  8  9
+    
+    here tx=2 allowed
+   
+     1st can be  p[0]->buy and P[2]->sell ==> Profit=4-2=2
+     2nd can be  p[3]->buy and p[4]->sell ==>Profit=2-1=1 
+     tx=0 and maxP=2+1 
+     but there are more posible transaction so we have to maximize;
+     2nd can be  p[3]->buy and p[9]->sell==>profit=4-1=3
+     tx=0 and maxP=2+3=5
+ -----------------------------------------
+     State Transaction
+       Bought ---->sell    
+         |-------->skip  (bought State)
+         
+       No-State--->buy      
+         |_______>skip -->(no-state)
+         
+       Sell---->buy
+       |_______>skip -->(no-state)
+       
+       1 Tx==>buy-sell;
+  -----------------------------------------------
+   1) Divide & Conquer 
+     
+      i) Divide Graph or Array into two parts
+      ii) 1st Transaction in LEFT  (buy and sell)
+          and 2nd Transaction in RIGHT(buy and sell)
+      repeat this for all posible points or index.
+      
+      int n=prices.length;
+      if(n==0)
+         return 0;
+      int left[]=new int[n];// For max Profit from left to right for each point
+      int right[]=new int[n];// for 1 maxProfit from right to left for each point
+
+
+     int minS=prices[0];
+     for(int i=1;i<n;i++)
+     {
+       left[i]=Math.max(left[i-1],prices[i]-minS);//1 tx for left
+       minS=Math.min(minS,prices[i]);
+     }
+     
+     int maxS=prices[n-1];
+     for(int i=n-2;i>=0;i--)
+     {
+       right[i]=Math.max(right[i+1],maxS-prices[i]);// 1 tx for right
+       maxS=Math.max(maxS,prices[i]);
+     }
+     
+     int maxProfit=0;
+     for(int i=0;i<n;i++)
+     {
+       maxProfit=Math.max(maxProfit,left[i]+right[i]);
+     }
+     return maxProfit;
+     
+ ---------------------------------------------------------------------------------
+  2) State Machine
+   Buy Sell Skip
+   
+   On selling,Profit should be 0 minimum
+   On Buying,Profit can go negative or min
+   Min Benfit=0 by skipping
+  
+   S1--> buy 
+      S1=-profit[0]
+   S2-->sell
+     S2=0
+  S3=Integer.MIN_VALUE;
+  S4=0;
+  
+  for(int i=1;i<n;i++)
+  {
+     S1=Math.max(S1,-prices[i]);
+     S2=Math.max(S2,S1+prices[i]);
+     S3=Math.max(S3,S2-prices[i]);
+     S4=Math.max(S4,S3+prices[i]);
+  }
+  return S4;
+  O(n)
+  ------------------------------------------
+  
+  DP(memoization)
+  -------------------------------
+  States:
+   i) Bought or not 0/1
+  ii) Transaction (k==2)
+ iii) Stock-days -n
+ 
+ memo[2][2+1][n];
+  
+     
