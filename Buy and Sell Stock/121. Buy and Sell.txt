@@ -1,0 +1,36 @@
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and 
+choosing a different day in the future to sell that stock.
+
+Refresh:
+  1 buy and 1 sell
+  Choose min from left and max from right & update profit.
+  
+  Input: prices = [7,1,5,3,6,4]
+                7                    
+                         5        6 =sell   
+                           
+                              3         4
+                    1=buy
+  Output: 6-1=5
+  
+  class Solution {
+    public int maxProfit(int[] prices) {
+        int Min=prices[0];
+        int MaxP=0;
+        for(int i=0;i<prices.length;i++)
+        {
+            if(Min>prices[i])
+                Min=prices[i];
+            if(MaxP<prices[i]-Min)
+            {
+                MaxP=prices[i]-Min;
+            }
+        }
+        return MaxP;
+    }
+}
+  
+
