@@ -1,0 +1,129 @@
+Given a string s and a dictionary of strings wordDict, 
+return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+
+Solution: Backtracing or Recusrive
+
+//BackTracking
+    /*
+           S="mypenmy"-->length=7
+           Dict:["my","pen"];
+         
+         Store Dict into a set:{"my","pen"}
+         
+                                        wb("mypenmy",0)-->T
+    i=0 to 6      
+        set.Contains(0,1) &&  wb(s,1)==>"m"->F && wb(s,1)T/F-->F
+        set.Contains(0,2) && wb(s,2)==>"my"->T && wb(s,2)-->T
+        set.contains(0,3) && wb(s,3)==>"myp"->F && Wb(s,3)-->T/F
+        set.contains(0,4) && wb(s,4)==>"mype"->F && wb(s,4)-->T/F
+        set.conatins(0,5) && wb(s,5)==>"mypen"->F && wb(s,5)-->T/F
+        set.conatins(0,6) && wb(s,6)==>"mypenm"->F && wb(s,5)-->T/F
+        set.conatins(0,7) && wb(0,7)==>"mypenmy"->F && wb(s,7)->since pos==s.length() retue true T
+    
+                                           wb(s,1)
+    i=1 to 6
+       set.conatins(1,2) && wb(s,2)
+       set.conatins(1,3) && wb(s,3)
+       -----------
+       --------
+       here for pos=1 to n there is not substring in dictionray so it will return false
+         wb(s,2)-->T
+    i=2 to 6
+      set.contains(2,3)->F && wb(s,3)->T/F
+      set.conains(2,4)->"pe" F && wb(s,4)->T/F
+      set.contains(2,5)->"pen" T && wb(s,5)--->T
+      --------------
+      -----------
+        wb(s,5)-->T 
+
+    i=5 to 6
+      set.contains(5,6)-->"m" F && wb(s,6)
+      set.conatins(5,7)-->"my" T && wb(s,7)-->T since pos=s.length return true
+    */
+    Set<String> set=new HashSet<String>();
+    public boolean wordBreak(String s, List<String> wordDict) {
+          for(String str:wordDict)
+          {
+              set.add(str);
+          }
+        return wb(s,0);
+    }
+    private boolean wb(String s,int pos)
+    {
+        if(pos==s.length())
+            return true;
+        for(int i=pos;i<s.length();i++)
+        {
+            if(set.contains(s.substring(pos,i+1)) && wb(s,i+1))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+TLE using this because it's time complexity O(2^n)
+
+--------//Memoization
+postion boolean array
+for string length n
+boolean t[]=new boolean[n];
+
+Set<String> set=new HashSet<String>();
+    boolean t[]=new boolean[300];
+    public boolean wordBreak(String s, List<String> wordDict) {
+          for(String str:wordDict)
+          {
+              set.add(str);
+          }
+        return wb(s,0);
+    }
+    private boolean wb(String s,int pos)
+    {
+        if(pos==s.length())
+            return true;
+       if(t[pos])
+           return t[pos];
+        for(int i=pos;i<s.length();i++)
+        {
+            if(set.contains(s.substring(pos,i+1)) && wb(s,i+1))
+            {  
+                 t[pos]=true;
+            }
+        }
+        return t[pos];
+    }
+}
+//TLE 
+time complexity is O(n^2*n)==>n^3
+                         |
+                         this n for creating substring->O(n)
+    
+// Memoization using key-Value pair  
+    class Solution {
+    Map<String,Boolean> mp=new HashMap();
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if(wordDict.contains(s))
+            return true;
+        if(mp.containsKey(s))
+            return mp.get(s);
+        for(int i=1;i<s.length();i++)
+        {
+            String left=s.substring(0,i);
+            if(wordDict.contains(left) && wordBreak(s.substring(i),wordDict))
+            {
+                mp.put(s,true);
+                return true;
+            }
+        }
+        mp.put(s,false);
+        return false;
+    }
+}
+O(n^2*m)
