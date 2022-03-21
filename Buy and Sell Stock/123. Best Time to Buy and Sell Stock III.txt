@@ -108,6 +108,24 @@ Possible solution with: 1) Divide & conquer
   ii) Transaction (k==2)
  iii) Stock-days -n
  
- memo[2][2+1][n];
-  
-     
+ memo[2][2+1][n]={-1}
+  solve(prices,0,2,0);
+private int solve(int [] P,int pos,int tx,int bought)
+    {
+        if(pos>=P.length || tx==0)
+            return 0;
+        if(memo[bought][tx][pos]!=-1)
+            return memo[bought][tx][pos];
+        
+        //Skip
+        int result=solve(P,pos+1,tx,bought);
+        
+        //Buy
+        if(bought==0)
+            result=Math.max(result,solve(P,pos+1,tx,1)-P[pos]);
+        else
+            result=Math.max(result,solve(P,pos+1,tx-1,0)+P[pos]);//sell
+        
+        return memo[bought][tx][pos]=result;
+    }
+}
