@@ -1,0 +1,25 @@
+Given a fence with n posts and k colors, find out the number of ways of painting the fence 
+so that not more than two consecutive fences have the same colors. Since the answer can be large return it modulo 10^9 + 7
+
+
+class Solution
+{
+    long countWays(int n,int k)
+    {
+        //code here.
+           long mod=1000000007;
+        if(n==1)
+          return k;
+     
+        long same=k*1%mod;
+        long diff=(k*(k-1))%mod;
+        long total=(same+diff)%mod;
+        for(int i=3;i<=n;i++)
+        {
+            same=diff*1%mod;
+            diff=(total*(k-1))%mod;
+            total=(same+diff)%mod;
+        }
+        return total;
+    }
+}
