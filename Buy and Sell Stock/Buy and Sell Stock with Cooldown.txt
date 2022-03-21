@@ -1,0 +1,40 @@
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like 
+(i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
+
+After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+
+
+
+class Solution {
+    int t[];
+    public int maxProfit(int[] prices) {
+        t=new int[prices.length+1];
+        Arrays.fill(t,-1);
+        return solve(prices,0,prices.length);
+    }
+    private int solve(int [] prices,int pos,int n){
+        if(pos>=n)
+            return 0;
+        if(t[pos]!=-1)
+            return t[pos];
+        int maxP=0;
+        for(int i=pos+1;i<n;i++)
+        {
+            if(prices[pos]<prices[i]) //We can try to sell on ith day
+            {
+                //We have 2 choices
+                //1.We can sell the stock at ith day and findMax from (i+2)th day
+                //2.Skip
+                maxP=Math.max(maxP,prices[i]-prices[pos]+solve(prices,i+2,n));
+            }
+                
+        }
+      // Or Skip current element
+       maxP=Math.max(maxP,solve(prices,pos+1,n));
+       return t[pos]=maxP;     
+    }
+}
